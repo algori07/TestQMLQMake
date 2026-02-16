@@ -71,7 +71,7 @@ jobs:
 
       - name: Install
         run: |
-          cd build/release
+          cd build
           mv HelloWorldQML.html index.html
 
       - name: Setup Pages
