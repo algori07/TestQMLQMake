@@ -67,7 +67,7 @@ jobs:
       - name: Build
         run: |
           cd build
-          make release -j$(nproc)
+          make -j$(nproc)
 
       - name: Install
         run: |
