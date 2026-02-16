@@ -21,6 +21,10 @@ concurrency:
   group: "pages"
   cancel-in-progress: false
 
+env:
+  EM_VERSION: 3.1.56 # Use the same emscripten version as Qt 6.8.3
+  EM_CACHE_FOLDER: 'emsdk-cache'
+
 jobs:
   # Single deploy job since we're just deploying
   deploy:
@@ -32,6 +36,19 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v4
 
+      - name: Setup Emscripten Cache
+        id: cache-system-libraries
+        uses: actions/cache@v4
+        with:
+          path: ${{env.EM_CACHE_FOLDER}}
+          key: ${{env.EM_VERSION}}-${{ runner.os }}
+          
+      - name: Install Emscripten 
+        uses: mymindstorm/setup-emsdk@v14
+        with:
+          version: ${{env.EM_VERSION}}
+          actions-cache-folder: ${{env.EM_CACHE_FOLDER}}
+      
       - name: Install Qt
         uses: jurplel/install-qt-action@v4
         with:
